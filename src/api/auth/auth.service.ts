@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { AuthEntity } from './entities/auth.entity';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class AuthService {
@@ -27,11 +28,15 @@ export class AuthService {
     const user = await this.validateUser(userIn.email, userIn.password);
     const token = user.token;
     const tokenType = user.token_type;
+    console.log(user)
     return {
-      message: 'Login successful',
-      token,
-      token_type: tokenType,
-      user: user
+      data :{
+        token,
+        token_type:tokenType,
+        user
+      },
+      message: 'You have successfully logged in.',
+      success: true
     };
   }
 
@@ -61,4 +66,19 @@ export class AuthService {
       success: true
     };
   }
+
+  async resetPassword(token: string, newPassword: string) {
+  try {
+    const decoded = await this.jwtService.verifyAsync(token);
+    const user = await this.userRepo.findOne({ where: { id: decoded.sub } });
+    if (!user) throw new NotFoundException('User not found');
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await this.userRepo.save(user);
+
+    return { message: 'Password reset successful' };
+  } catch (err) {
+    throw new Error('Invalid or expired token');
+  }
+}
 }

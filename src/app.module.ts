@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './api/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { OtpModule } from './api/otp/otp.module';
 @Module({
   imports: [
     AuthModule,
@@ -24,6 +25,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         synchronize: config.get<boolean>('DB_SYNCHRONIZE'),
       }),
     }),
+    OtpModule,
   ],
   controllers: [AppController],
   providers: [AppService],

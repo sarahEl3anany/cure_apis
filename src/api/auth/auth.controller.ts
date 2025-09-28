@@ -29,5 +29,10 @@ export class AuthController {
   register(@Body() userIn: RegisterDto) {
     return this.authService.register(userIn);
   }
+
+  @Post('/reset-password')
+  resetPassword(@Body() body: { token: string; password: string }) {
+    return this.authService.resetPassword(body.token, body.password);
+  }
   
 }
