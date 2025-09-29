@@ -23,7 +23,7 @@ avatar: string | null;
 @Column({ type: 'varchar', length: 255 })
 password: string;
 
-@Column({ type: 'date', nullable: true, default: null })
+@Column({ type: 'timestamp', nullable: true, default: null })
 email_verified_at: Date | null;
 
 @CreateDateColumn({ type: 'timestamp' })

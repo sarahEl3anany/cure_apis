@@ -5,6 +5,8 @@ import { AuthEntity } from './entities/auth.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MailService } from '../mail/mail.service';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([AuthEntity]),
@@ -18,6 +20,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService, MailService]
 })
 export class AuthModule {}

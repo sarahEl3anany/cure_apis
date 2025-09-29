@@ -19,7 +19,6 @@ constructor(
     await this.otpRepo.save(otpReq);
 
     await this.sendEmail(email, otp);
-// }) as { message: string, data: { email: string, expires_at: string, note: string } }
 
     return { 
       success: true,

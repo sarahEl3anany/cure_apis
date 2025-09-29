@@ -5,6 +5,7 @@ import { AuthModule } from './api/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { OtpModule } from './api/otp/otp.module';
+import { MailModule } from './api/mail/mail.module';
 @Module({
   imports: [
     AuthModule,
@@ -26,6 +27,7 @@ import { OtpModule } from './api/otp/otp.module';
       }),
     }),
     OtpModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
